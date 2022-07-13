@@ -32,7 +32,7 @@ const AuthContextProvider = ({ children }) => {
       // console.log(res);
     } catch (err) {
       console.log(err);
-      setError(err.response.data.detail);
+      setError([err.response.data.detail]);
     }
   }
   async function checkAuth() {
@@ -66,7 +66,9 @@ const AuthContextProvider = ({ children }) => {
       console.log(err);
       handleLogout();
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   }
   function handleLogout(navigate) {
@@ -81,6 +83,7 @@ const AuthContextProvider = ({ children }) => {
         currentUser,
         error,
         loading,
+        setError,
         handleRegister,
         handleLogin,
         checkAuth,

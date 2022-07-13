@@ -6,13 +6,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../../contexts/authContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { handleLogin, error } = useContext(authContext);
+  const { handleLogin, error, setError } = useContext(authContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   function handleSave() {
@@ -21,6 +21,9 @@ const Login = () => {
     formData.append("password", password);
     handleLogin(formData, email, navigate);
   }
+  useEffect(() => {
+    setError(false);
+  }, []);
   // console.log(error);
   return (
     <Container maxWidth="sm">
