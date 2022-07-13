@@ -66,9 +66,7 @@ const AuthContextProvider = ({ children }) => {
       console.log(err);
       handleLogout();
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 300);
+      setLoading(false);
     }
   }
   function handleLogout(navigate) {

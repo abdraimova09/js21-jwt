@@ -20,6 +20,12 @@ const Header = () => {
     <Container>
       {currentUser ? (
         <Box>
+          <Button variant="contained" onClick={() => navigate("/products")}>
+            Products
+          </Button>
+          <Button variant="contained" onClick={() => navigate("/add")}>
+            Add product
+          </Button>
           <Typography variant="h6">{currentUser}</Typography>
           <Button onClick={() => handleLogout(navigate)} variant="outlined">
             Logout

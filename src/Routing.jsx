@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import AddProduct from "./components/AddProduct/AddProduct";
 import Loader from "./components/Loader/Loader";
 import Login from "./components/Login/Login";
 import ProductsList from "./components/ProductsList/ProductsList";
@@ -15,12 +16,38 @@ const Routing = () => {
   console.log(currentUser);
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/register-success" element={<RegisterSuccess />} />
+      <Route
+        path="/login"
+        element={currentUser ? <Navigate to="/products" replace /> : <Login />}
+      />
+      <Route
+        path="/register"
+        element={
+          currentUser ? <Navigate to="/products" replace /> : <Register />
+        }
+      />
+      <Route
+        path="/register-success"
+        element={
+          currentUser ? (
+            <Navigate to="/products" replace />
+          ) : (
+            <RegisterSuccess />
+          )
+        }
+      />
       <Route
         path="/products"
-        element={currentUser ? <ProductsList /> : <Navigate to="/login" />}
+        element={
+          currentUser ? <ProductsList /> : <Navigate to="/login" replace />
+        }
+      />
+
+      <Route
+        path="/add"
+        element={
+          currentUser ? <AddProduct /> : <Navigate to="/login" replace />
+        }
       />
     </Routes>
   );

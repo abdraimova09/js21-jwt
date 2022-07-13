@@ -6,6 +6,7 @@ export const productsContext = React.createContext();
 const INIT_STATE = {
   products: [],
   pages: 0,
+  categories: [],
 };
 function reducer(state = INIT_STATE, action) {
   switch (action.type) {
@@ -15,6 +16,8 @@ function reducer(state = INIT_STATE, action) {
         products: action.payload.results,
         pages: Math.ceil(action.payload.count / 5),
       };
+    case "GET_CATEGORIES":
+      return { ...state, categories: action.payload };
     default:
       return state;
   }
@@ -35,8 +38,6 @@ const ProductsContextProvider = ({ children }) => {
         },
       };
       const res = await axios(`${API}/products/`, config);
-      // console.log(res.data.count);
-      // console.log(res.data.results);
       dispatch({
         type: "GET_PRODUCTS",
         payload: res.data,
@@ -45,9 +46,54 @@ const ProductsContextProvider = ({ children }) => {
       console.log(err);
     }
   }
+  async function getCategories() {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios(`${API}/category/list/`, config);
+      // console.log(res);
+      dispatch({
+        type: "GET_CATEGORIES",
+        payload: res.data.results,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function createProduct(newProduct, navigate) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios.post(`${API}/products/`, newProduct, config);
+      console.log(res);
+      navigate("/products");
+      getProducts();
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <productsContext.Provider
-      value={{ products: state.products, pages: state.pages, getProducts }}>
+      value={{
+        products: state.products,
+        pages: state.pages,
+        categories: state.categories,
+        getProducts,
+        getCategories,
+        createProduct,
+      }}>
       {children}
     </productsContext.Provider>
   );
