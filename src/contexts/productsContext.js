@@ -7,6 +7,7 @@ const INIT_STATE = {
   products: [],
   pages: 0,
   categories: [],
+  oneProduct: null,
 };
 function reducer(state = INIT_STATE, action) {
   switch (action.type) {
@@ -18,6 +19,8 @@ function reducer(state = INIT_STATE, action) {
       };
     case "GET_CATEGORIES":
       return { ...state, categories: action.payload };
+    case "GET_ONE_PRODUCT":
+      return { ...state, oneProduct: action.payload };
     default:
       return state;
   }
@@ -37,7 +40,10 @@ const ProductsContextProvider = ({ children }) => {
           Authorization,
         },
       };
-      const res = await axios(`${API}/products/`, config);
+      const res = await axios(
+        `${API}/products/${window.location.search}`,
+        config
+      );
       dispatch({
         type: "GET_PRODUCTS",
         payload: res.data,
@@ -84,15 +90,113 @@ const ProductsContextProvider = ({ children }) => {
       console.log(err);
     }
   }
+  async function deleteProduct(id) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      await axios.delete(`${API}/products/${id}/`, config);
+      getProducts();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function getOneProduct(id) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios(`${API}/products/${id}/`, config);
+      // console.log(res);
+      dispatch({
+        type: "GET_ONE_PRODUCT",
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateProduct(id, editedProduct, navigate) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios.patch(
+        `${API}/products/${id}/`,
+        editedProduct,
+        config
+      );
+      navigate("/products");
+      getProducts();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function toggleLike(id) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios(`${API}/products/${id}/toggle_like/`, config);
+      getProducts();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function toggleFavorites(id) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios(
+        `${API}/products/${id}/toggle_favorites/`,
+        config
+      );
+      getProducts();
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <productsContext.Provider
       value={{
         products: state.products,
         pages: state.pages,
         categories: state.categories,
+        oneProduct: state.oneProduct,
         getProducts,
         getCategories,
         createProduct,
+        deleteProduct,
+        getOneProduct,
+        updateProduct,
+        toggleLike,
+        toggleFavorites,
       }}>
       {children}
     </productsContext.Provider>

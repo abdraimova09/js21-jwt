@@ -13,35 +13,52 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { PhotoCamera } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProduct = () => {
+const EditProduct = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { getCategories, categories, createProduct } =
-    useContext(productsContext);
+  const {
+    getCategories,
+    categories,
+    getOneProduct,
+    oneProduct,
+    updateProduct,
+  } = useContext(productsContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
-  console.log(image);
+  // console.log(image);
   useEffect(() => {
     getCategories();
+    getOneProduct(id);
   }, []);
+  useEffect(() => {
+    if (oneProduct) {
+      setTitle(oneProduct.title);
+      setDescription(oneProduct.description);
+      setPrice(oneProduct.price);
+      setCategory(oneProduct.category.id);
+    }
+  }, [oneProduct]);
   function handleSave() {
-    let newProduct = new FormData();
-    newProduct.append("title", title);
-    newProduct.append("description", description);
-    newProduct.append("price", price);
-    newProduct.append("category", category);
-    newProduct.append("image", image);
-    createProduct(newProduct, navigate);
+    let editedProduct = new FormData();
+    editedProduct.append("title", title);
+    editedProduct.append("description", description);
+    editedProduct.append("price", price);
+    editedProduct.append("category", category);
+    if (image) {
+      editedProduct.append("image", image);
+    }
+    updateProduct(id, editedProduct, navigate);
   }
   // console.log(categories);
   return (
     <Container maxWidth="sm">
       <Box display={"flex"} flexDirection={"column"}>
-        <Typography variant="h6">Add product</Typography>
+        <Typography variant="h6">Edit product</Typography>
         <TextField
           label="Title"
           variant="outlined"
@@ -98,4 +115,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;
