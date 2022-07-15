@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AddProduct from "./components/AddProduct/AddProduct";
+import Details from "./components/Details/Details";
 import EditProduct from "./components/EditProduct/EditProduct";
+import Favorites from "./components/Favorites/Favorites";
 import Loader from "./components/Loader/Loader";
 import Login from "./components/Login/Login";
 import ProductsList from "./components/ProductsList/ProductsList";
@@ -51,6 +53,8 @@ const Routing = () => {
         }
       />
       <Route path="/edit/:id" element={<EditProduct />} />
+      <Route path="/products/:id" element={<Details />} />
+      <Route path="/favorites" element={<Favorites />} />
     </Routes>
   );
 };

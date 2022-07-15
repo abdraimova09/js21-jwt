@@ -2,24 +2,25 @@ import { Box, Container, Pagination } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { productsContext } from "../../contexts/productsContext";
-import ProductsCard from "../ProductsCard/ProductsCard";
+import FavoritesCard from "../FavoritesCard/FavoritesCard";
 
-const ProductsList = () => {
-  const { getProducts, products, pages } = useContext(productsContext);
+const Favorites = () => {
+  const { getFavorites, favoritesPages, favorites } =
+    useContext(productsContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
-    getProducts();
+    getFavorites();
   }, []);
   useEffect(() => {
-    getProducts();
+    getFavorites();
   }, [searchParams]);
   useEffect(() => {
     setSearchParams({
       page: currentPage,
     });
   }, [currentPage]);
-  // console.log(products);
+
   return (
     <Container>
       <Box
@@ -27,15 +28,15 @@ const ProductsList = () => {
         flexWrap={"wrap"}
         justifyContent={"center"}
         alignItems={"start"}>
-        {products.map(item => (
-          <ProductsCard key={item.id} item={item} />
+        {favorites.map(item => (
+          <FavoritesCard key={item.id} item={item} />
         ))}
       </Box>
       <Box display={"flex"} justifyContent={"center"}>
         <Pagination
           page={currentPage}
           onChange={(e, page) => setCurrentPage(page)}
-          count={pages}
+          count={favoritesPages}
           variant="outlined"
           color="primary"
         />
@@ -44,4 +45,4 @@ const ProductsList = () => {
   );
 };
 
-export default ProductsList;
+export default Favorites;

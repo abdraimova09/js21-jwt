@@ -26,6 +26,9 @@ const Header = () => {
           <Button variant="contained" onClick={() => navigate("/add")}>
             Add product
           </Button>
+          <Button variant="contained" onClick={() => navigate("/favorites")}>
+            Favorites
+          </Button>
           <Typography variant="h6">{currentUser}</Typography>
           <Button onClick={() => handleLogout(navigate)} variant="outlined">
             Logout

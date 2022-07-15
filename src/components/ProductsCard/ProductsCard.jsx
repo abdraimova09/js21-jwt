@@ -51,7 +51,7 @@ export default function ProductsCard({ item }) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
+          <IconButton onClick={() => navigate(`/products/${item.id}`)}>
             <MoreVertIcon />
           </IconButton>
         }
