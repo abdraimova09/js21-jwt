@@ -1,0 +1,21 @@
+[debug] [2022-07-15T06:50:44.160Z] ----------------------------------------------------------------------
+[debug] [2022-07-15T06:50:44.160Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init
+[debug] [2022-07-15T06:50:44.161Z] CLI Version:   11.1.0
+[debug] [2022-07-15T06:50:44.161Z] Platform:      darwin
+[debug] [2022-07-15T06:50:44.161Z] Node Version:  v16.15.0
+[debug] [2022-07-15T06:50:44.162Z] Time:          Fri Jul 15 2022 12:50:44 GMT+0600 (Киргизия)
+[debug] [2022-07-15T06:50:44.162Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-07-15T06:50:44.165Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-07-15T06:50:44.165Z] > authorizing via signed-in user (abdraimova09@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/begimayabdraimova/Desktop/js21/jwt
+

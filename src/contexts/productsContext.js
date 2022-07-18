@@ -214,6 +214,39 @@ const ProductsContextProvider = ({ children }) => {
       console.log(err);
     }
   }
+  async function createReview(review, productId) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      const res = await axios.post(`${API}/reviews/`, review, config);
+      console.log(res);
+      getOneProduct(productId);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function deleteReview(reviewId, productId) {
+    try {
+      const tokens = JSON.parse(localStorage.getItem("tokens"));
+      //config
+      const Authorization = `Bearer ${tokens.access}`;
+      const config = {
+        headers: {
+          Authorization,
+        },
+      };
+      await axios.delete(`${API}/reviews/${reviewId}/`, config);
+      getOneProduct(productId);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <productsContext.Provider
       value={{
@@ -232,6 +265,8 @@ const ProductsContextProvider = ({ children }) => {
         toggleLike,
         toggleFavorites,
         getFavorites,
+        createReview,
+        deleteReview,
       }}>
       {children}
     </productsContext.Provider>
